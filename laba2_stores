@@ -1,0 +1,30 @@
+
+# Список товаров и их цены в магазинах
+goods = []  # Список для хранения товаров и цен
+stores = {}  # Словарь для хранения магазинов и их цен
+
+# Ввод данных о товарах
+while True:
+    item = input("Введите товар (или 'стоп' для завершения): ")
+    if item.lower() == 'стоп':
+        break
+    price_list = input(f"Введите цены на '{item}' в разных магазинах (разделите пробелами): ")
+    prices = list(map(float, price_list.split()))
+    goods.append(item)
+    for i, price in enumerate(prices):
+        store_name = f"Магазин {i + 1}"
+        if store_name not in stores:
+            stores[store_name] = {}
+        stores[store_name][item] = price
+
+# Вычисляем общую стоимость покупок в каждом магазине
+total_costs = {store: sum(prices.values()) for store, prices in stores.items()}
+
+# Выводим общую стоимость в каждом магазине
+for store, total in total_costs.items():
+    print(f"{store}: общая стоимость {total:.2f}")
+
+# Определяем магазин с минимальной стоимостью
+cheapest_store = min(total_costs, key=total_costs.get)
+savings = total_costs[cheapest_store]
+print(f"Магазин, где можно сэкономить больше всего: {cheapest_store} с общей стоимостью {savings:.2f}")
